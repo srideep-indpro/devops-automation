@@ -1,4 +1,4 @@
-FROM openjdk:17
-EXPOSE 8081
-ADD target/devops-automation.jar devops-automation.jar
-ENTRYPOINT ["java", "-jar", "devops-automation.jar"]
+FROM openjdk:8
+ADD target/springboot-eks.jar springboot-eks.jar
+EXPOSE 8082
+ENTRYPOINT ["java","-jar","springboot-eks.jar"]
