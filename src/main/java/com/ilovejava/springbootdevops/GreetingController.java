@@ -30,6 +30,8 @@ public class GreetingController {
         List<Employee> empList = new ArrayList<>();
         empList.add(new Employee("1","Amit","30","8998","10000"));
         empList.add(new Employee("2","Sumit","31","8890","20000")) ;
+        empList.add(new Employee("3","Amit","35","8998","10000"));
+
 
         List<Employee> employees = repository.saveAll(empList);
         if(employees.size()>0){
@@ -41,8 +43,9 @@ public class GreetingController {
     }
 
     @GetMapping("/getEmployeeByName")
-    public ResponseEntity<?> getEmpByName(@RequestParam(name="name") String name){
-        List<?> employeesByName = empDao.findEmployeesByName(name);
+    public ResponseEntity<?> getEmpByName(@RequestParam(name="attributes") List<String> attributeList){
+        List<?> employeesByName = empDao.findEmployeesByName1(attributeList);
+//        List<Object> emp = repository.findEmployeesByName(attributeList);
 
         return ResponseEntity.ok(employeesByName);
     }

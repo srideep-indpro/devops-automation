@@ -16,12 +16,30 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String id, String name, String age, String contactNo, String salary) {
+//    public Employee(String id, String name, String age, String contactNo, String salary) {
+//        this.id = id;
+//        this.name = name;
+//        this.age = age;
+//        this.contactNo = contactNo;
+//        this.salary = salary;
+//    }
+
+    public Employee(String id, String... args){
+
         this.id = id;
-        this.name = name;
-        this.age = age;
-        this.contactNo = contactNo;
-        this.salary = salary;
+
+        if(args.length > 0){
+            this.name = args[0];
+        }
+        if(args.length > 1){
+            this.age = args[1];
+        }
+        if(args.length > 2){
+            this.contactNo = args[2];
+        }
+        if(args.length > 3){
+            this.salary = args[3];
+        }
     }
 
     public String getId() {
