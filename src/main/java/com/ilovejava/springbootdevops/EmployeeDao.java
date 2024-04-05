@@ -7,9 +7,7 @@ import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class EmployeeDao {
@@ -43,7 +41,7 @@ public class EmployeeDao {
     }
 
 
-    List<?> findEmployeesByName1(List<String> attributeList) {
+    EmployeeDynamicObject findEmployeesByName1(List<String> attributeList) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 //        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
         CriteriaQuery<Object> cq = cb.createQuery();
@@ -58,7 +56,26 @@ public class EmployeeDao {
 
 //        List<Object[]> resultList = em.createQuery(cq).getResultList();
         List<Object> resultList = em.createQuery(cq).getResultList();
-        return resultList;
+        List<Map<String, Object>> historyMapList = new ArrayList<>();
+//        List<EmployeeDynamicObject> dynamicObjects = new ArrayList<>();
+
+        for(int i=0; i<resultList.size();i++){
+            Object[] obj = (Object[]) resultList.get(i);
+            Map<String,Object> historyMap = new HashMap<>();
+            for(int j=0;j<obj.length;j++){
+                historyMap.put(attributeList.get(j), obj[j]);
+
+//                EmployeeDynamicObject dObj = new EmployeeDynamicObject();
+//                dObj.setEmployeeDetails(historyMap);
+//                dynamicObjects.add(dObj);
+            }
+            historyMapList.add(historyMap);
+            historyMap = new HashMap<>();
+        }
+        EmployeeDynamicObject dObj = new EmployeeDynamicObject();
+        dObj.setEmployeeDetails(historyMapList);
+        return dObj;
+//        return resultList;
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GreetingController {
@@ -44,7 +45,7 @@ public class GreetingController {
 
     @GetMapping("/getEmployeeByName")
     public ResponseEntity<?> getEmpByName(@RequestParam(name="attributes") List<String> attributeList){
-        List<?> employeesByName = empDao.findEmployeesByName1(attributeList);
+        EmployeeDynamicObject employeesByName = empDao.findEmployeesByName1(attributeList);
 //        List<Object> emp = repository.findEmployeesByName(attributeList);
 
         return ResponseEntity.ok(employeesByName);
