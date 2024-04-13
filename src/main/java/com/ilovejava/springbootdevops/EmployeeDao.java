@@ -15,8 +15,6 @@ public class EmployeeDao {
     @Autowired
     EntityManager em;
 
-    // constructor
-
     List<Employee> findEmployeesByName(List<String> attributeList) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -27,23 +25,14 @@ public class EmployeeDao {
         Selection[] selections = new Selection[]{employee.get("age"), employee.get("name")};
 
         cq.multiselect(selections);
-//        cq.multiselect(employee.get("age"), employee.get("name"));
         List<Employee> resultList = em.createQuery(cq).getResultList();
 
-//        Predicate authorNamePredicate = cb.equal(employee.get("name"), name);
-//        Predicate titlePredicate = cb.like(book.get("title"), "%" + title + "%");
-//        cq.where(authorNamePredicate);
-
-//        TypedQuery<Employee> query = em.createQuery(cq)
-//                .setHint("jakarta.persistence.fetchgraph", entityGraph);
-//        return query.getResultList();
         return em.createQuery(cq).getResultList();
     }
 
 
-    EmployeeDynamicObject findEmployeesByName1(List<String> attributeList) {
+    EmployeeDynamicObject findEmployeesByAttributes(List<String> attributeList) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
         CriteriaQuery<Object> cq = cb.createQuery();
         Root<Employee> root = cq.from(Employee.class);
 
@@ -54,28 +43,21 @@ public class EmployeeDao {
         });
         cq.multiselect(s);
 
-//        List<Object[]> resultList = em.createQuery(cq).getResultList();
         List<Object> resultList = em.createQuery(cq).getResultList();
         List<Map<String, Object>> historyMapList = new ArrayList<>();
-//        List<EmployeeDynamicObject> dynamicObjects = new ArrayList<>();
 
-        for(int i=0; i<resultList.size();i++){
+        for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = (Object[]) resultList.get(i);
-            Map<String,Object> historyMap = new HashMap<>();
-            for(int j=0;j<obj.length;j++){
+            Map<String, Object> historyMap = new HashMap<>();
+            for (int j = 0; j < obj.length; j++) {
                 historyMap.put(attributeList.get(j), obj[j]);
-
-//                EmployeeDynamicObject dObj = new EmployeeDynamicObject();
-//                dObj.setEmployeeDetails(historyMap);
-//                dynamicObjects.add(dObj);
             }
             historyMapList.add(historyMap);
-            historyMap = new HashMap<>();
         }
         EmployeeDynamicObject dObj = new EmployeeDynamicObject();
         dObj.setEmployeeDetails(historyMapList);
+
         return dObj;
-//        return resultList;
     }
 
 }
